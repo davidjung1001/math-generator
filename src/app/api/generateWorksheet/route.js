@@ -13,7 +13,7 @@ Use LaTeX for fractions and exponents with:
 - Inline math: $ ... $
 Do NOT use square brackets.
 
-Number the questions and leave space between each question.
+Number the questions and leave two lines between each question.
 `;
 
   const response = await client.chat.completions.create({
