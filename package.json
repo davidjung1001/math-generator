@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "component-emitter": "^2.0.0",
     "emitter": "^0.0.5",
     "html-pdf-node": "^1.0.8",
     "html2canvas": "^1.4.1",
