@@ -12,7 +12,7 @@ export async function POST(req) {
     const text = await file.text();
 
     // Split by lectures
-    const lectures = text.split("\n\n\n").map((lec) => lec.trim()).filter(Boolean);
+    const lectures = text.split("\n\n").map((lec) => lec.trim()).filter(Boolean);
 
     let summaries = [];
 

@@ -6,7 +6,7 @@ export default function Home() {
   return (
     <div className="p-8 max-w-3xl mx-auto space-y-6">
       <h1 className="text-4xl font-bold mb-6">Math Worksheet Generator</h1>
-      
+
       <div>
         <p className="font-semibold mb-2">Select a topic:</p>
         <ul className="space-y-2">
@@ -33,6 +33,18 @@ export default function Home() {
           Go to Summarizer
         </Link>
       </div>
+
+      <div className="border-t border-gray-300 pt-6">
+        <h2 className="text-2xl font-bold mb-2">Lecture Q&A</h2>
+        <p className="mb-2">Paste notes and ask questions interactively:</p>
+        <Link
+          href="/qna"
+          className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+        >
+          Go to Q&A
+        </Link>
+      </div>
+
     </div>
   );
 }
