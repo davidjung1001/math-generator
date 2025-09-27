@@ -1,6 +1,9 @@
 // app/api/generateWorksheet/route.js
 import OpenAI from "openai";
 
+
+export const runtime = "nodejs";
+
 export async function POST(req) {
   const { topic = "fractions", numProblems = 10, difficulty = "medium" } = await req.json();
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
