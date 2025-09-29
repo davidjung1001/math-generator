@@ -9,10 +9,30 @@ export async function POST(req) {
   try {
     const formData = await req.formData();
     const file = formData.get("file");
-    const text = await file.text();
+    const pastedText = formData.get("text");
 
-    // Split by lectures
-    const lectures = text.split("\n\n").map((lec) => lec.trim()).filter(Boolean);
+    let text = "";
+
+    // If a file was uploaded
+    if (file) {
+      const buffer = Buffer.from(await file.arrayBuffer());
+      text = buffer.toString("utf-8");
+    }
+
+    // If pasted text exists, append it
+    if (pastedText && pastedText.trim()) {
+      text += `\n${pastedText}`;
+    }
+
+    if (!text.trim()) {
+      return NextResponse.json({ error: "No input provided." }, { status: 400 });
+    }
+
+    // Split into "lectures" by blank line
+    const lectures = text
+      .split("\n\n")
+      .map((lec) => lec.trim())
+      .filter(Boolean);
 
     let summaries = [];
 
@@ -31,12 +51,17 @@ export async function POST(req) {
         temperature: 0,
       });
 
-      summaries.push(`## Lecture ${i + 1}\n\n${response.choices[0].message.content}`);
+      summaries.push(
+        `## Lecture ${i + 1}\n\n${response.choices[0].message.content.trim()}`
+      );
     }
 
     return NextResponse.json({ summary: summaries.join("\n\n") });
   } catch (err) {
-    console.error(err);
-    return NextResponse.json({ error: err.message }, { status: 500 });
+    console.error("Summarizer error:", err);
+    return NextResponse.json(
+      { error: "Failed to summarize. Please try again." },
+      { status: 500 }
+    );
   }
 }
