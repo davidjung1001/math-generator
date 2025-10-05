@@ -10,9 +10,16 @@ You are a helpful tutor. Here are the lecture notes:
 
 "${notes}"
 
-Now, answer this student’s question clearly and concisely:
+Now, answer this student’s question in a **clear, structured format** using Markdown.  
+Only use information from the notes.
+Your answer should include these sections (if relevant):
+- ## Overview (short introduction)
+- ## Key Points (bullet points or numbered list)
+- ## Summary (concise wrap-up)
 
-"${question}"
+If the question is about a single concept, explain it step by step. Always use headings, bullet points, and bolding where helpful.
+  
+Student’s Question: "${question}"
 `;
 
   const response = await client.chat.completions.create({

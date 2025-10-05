@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Tesseract from "tesseract.js";
 import { Bot, User } from "lucide-react";
+import ReactMarkdown from "react-markdown";
 
 export default function QnAPage() {
   const [notes, setNotes] = useState("");
@@ -96,7 +97,7 @@ export default function QnAPage() {
                 msg.role === "user" ? "bg-blue-500 text-white" : "bg-gray-200 text-gray-900"
               }`}
             >
-              {msg.content}
+              <ReactMarkdown>{msg.content}</ReactMarkdown>
             </div>
           </div>
         ))}
