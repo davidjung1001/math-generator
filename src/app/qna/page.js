@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { Bot, User, Upload } from "lucide-react";
 import Tesseract from "tesseract.js";
+import ReactMarkdown from "react-markdown";
 
 export default function QnAPage() {
   const [notes, setNotes] = useState("");
@@ -12,6 +13,12 @@ export default function QnAPage() {
   const [loading, setLoading] = useState(false);
   const [ocrLoading, setOcrLoading] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("connecting...");
+  const messagesEndRef = useRef(null);
+
+  // Scroll to bottom whenever messages update
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
 
   // Load all messages from database
   const loadMessages = async () => {
@@ -157,28 +164,33 @@ export default function QnAPage() {
       </div>
 
       {/* Chat messages */}
-      <div className="border rounded-lg p-4 h-96 overflow-y-auto bg-gray-50 space-y-3">
+      <div className="border rounded-lg p-6 h-[600px] md:h-[700px] overflow-y-auto bg-gradient-to-br from-slate-50 to-blue-50 space-y-4">
         {messages.length === 0 && (
           <p className="text-gray-400 text-center mt-20">No messages yet. Ask a question to get started!</p>
         )}
-        {messages.map((msg) => (
+        {messages.map((msg, index) => (
           <div
-            key={msg.uuid}
-            className={`flex gap-2 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
+            key={msg.uuid || msg.id || index}
+            className={`flex gap-3 ${msg.role === "user" ? "justify-end" : "justify-start"}`}
           >
-            {msg.role === "assistant" && <Bot className="w-5 h-5 text-green-500 flex-shrink-0 mt-1" />}
+            {msg.role === "assistant" && <Bot className="w-6 h-6 text-green-600 flex-shrink-0 mt-1" />}
             <div
-              className={`px-4 py-2 rounded-lg max-w-[80%] break-words ${
+              className={`px-5 py-3 rounded-lg max-w-[85%] md:max-w-[75%] break-words shadow-sm ${
                 msg.role === "user" 
-                  ? "bg-blue-500 text-white" 
-                  : "bg-white border text-gray-900"
+                  ? "bg-blue-600 text-white prose-invert" 
+                  : "bg-white border border-gray-200 text-gray-900"
               }`}
             >
-              {msg.content}
+              <div className="prose prose-sm max-w-none [&>*:first-child]:mt-0 [&>*:last-child]:mb-0">
+                <ReactMarkdown>
+                  {msg.content}
+                </ReactMarkdown>
+              </div>
             </div>
-            {msg.role === "user" && <User className="w-5 h-5 text-gray-500 flex-shrink-0 mt-1" />}
+            {msg.role === "user" && <User className="w-6 h-6 text-blue-600 flex-shrink-0 mt-1" />}
           </div>
         ))}
+        <div ref={messagesEndRef} />
       </div>
 
       {/* Ask section */}

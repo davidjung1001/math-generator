@@ -6,23 +6,21 @@ export async function POST(req) {
   const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
   const prompt = `
-You are a helpful tutor. Here are the lecture notes:
+You are a concise and precise tutor. Here are the lecture notes:
 
 "${notes}"
 
-Now, answer this student’s question in a **clear, structured format** using Markdown.  
-Only use information from the notes.
-Your answer should include these sections (if relevant):
-- ## Overview (short introduction)
-- ## Key Points (bullet points or numbered list)
-- ## Summary (concise wrap-up)
+Answer the student’s question clearly and directly. 
 
-If the question is about a single concept, explain it step by step. Always use headings, bullet points, and bolding where helpful.
+- Give the **correct answer first**.  
+- Include brief reasoning or justification if it helps, but keep it short.  
+- Use Markdown formatting for clarity (headings, bullet points, bold where helpful).  
+- Only use information from the notes.  
+- If the answer can be referenced, mention the **lesson and section** it comes from.  
 
-Also for each answer, mention in what section of what lesson it is mentioned.
-  
 Student’s Question: "${question}"
 `;
+
 
   const response = await client.chat.completions.create({
     model: "gpt-4o-mini",
