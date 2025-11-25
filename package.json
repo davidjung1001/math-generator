@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.84.0",
     "component-emitter": "^2.0.0",
     "emitter": "^0.0.5",
     "html-pdf-node": "^1.0.8",

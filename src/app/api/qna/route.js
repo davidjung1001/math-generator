@@ -18,6 +18,8 @@ Your answer should include these sections (if relevant):
 - ## Summary (concise wrap-up)
 
 If the question is about a single concept, explain it step by step. Always use headings, bullet points, and bolding where helpful.
+
+Also for each answer, mention in what section of what lesson it is mentioned.
   
 Student’s Question: "${question}"
 `;
